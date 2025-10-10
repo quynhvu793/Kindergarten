@@ -32,6 +32,11 @@ public class TaxCalculatorTest {
     }
 
     @Test
+    void testIncomeBetween50And80M() {
+        assertEquals(21.0, TaxCalculator.calculateTax(70), 0.001);
+    }
+
+    @Test
     void testNegativeIncomeThrowsException() {
         Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             TaxCalculator.calculateTax(-10);
