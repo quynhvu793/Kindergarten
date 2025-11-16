@@ -1,14 +1,14 @@
-name: Automation test on push commit
+name: Manual Build KindergartenApp
 
 on:
-  push:
-    branches: [develop, main]
+  workflow_dispatch:   # chạy bằng tay
 
 jobs:
-  test-and-report:
+  build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up JDK
@@ -18,20 +18,5 @@ jobs:
           distribution: "temurin"
           cache: "maven"
 
-      - name: Run the tests
-        run: mvn -B clean test
-
-      - name: Upload test result to Jira (Xray)
-        env:
-          XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
-          XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
-        
-        run: |
-          TOKEN=$(curl -s -X POST https://xray.cloud.getxray.app/api/v2/authenticate \
-            -H "Content-Type: application/json" \
-            -d "{\"client_id\":\"$XRAY_CLIENT_ID\",\"client_secret\":\"$XRAY_CLIENT_SECRET\"}" | tr -d '"')
-      
-          curl -v -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=ST2N1" \
-            -H "Authorization: Bearer $TOKEN" \
-            -H "Content-Type: text/xml" \
-            --data @"./target/surefire-reports/TEST-org.technical.TaxCalculatorTest.xml"
+      - name: Build and run tests
+        run: mvn clean test
