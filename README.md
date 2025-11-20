@@ -1,3 +1,0 @@
-# Kindergarten
-# Kindergarten
-# Kindergarten
