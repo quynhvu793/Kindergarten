@@ -1,4 +1,7 @@
+org\technical\DatabaseHelper.class
+org\technical\Student.class
 org\technical\Main.class
 org\technical\Attendance.class
 org\technical\FeeCalculator.class
 org\technical\Database.class
+org\technical\StudentManager.class
