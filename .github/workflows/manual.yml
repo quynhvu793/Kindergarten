@@ -31,7 +31,7 @@ jobs:
             -d "{\"client_id\":\"$XRAY_CLIENT_ID\",\"client_secret\":\"$XRAY_CLIENT_SECRET\"}" | tr -d '"')
 
           for file in target/surefire-reports/TEST-*.xml; do
-            curl -v -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=STN1" \
+            curl -v -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=BCK" \
               -H "Authorization: Bearer $TOKEN" \
               -H "Content-Type: text/xml" \
               --data @"$file"
