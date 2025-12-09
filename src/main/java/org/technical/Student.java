@@ -26,9 +26,9 @@ public class Student {
 		this.gender = gender;
 	}
 
-	public int addStudent() {
+	public int addStudent(String env) {
 		try {
-			Connection conn = Database.getConnection();
+			Connection conn = Database.getConnection(env);
 
 			if (conn == null) {
 				return -1;
@@ -49,7 +49,7 @@ public class Student {
 		}
 	}
 
-	public List<Student> searchForStudents(String name) {
+	public List<Student> searchForStudents(String name, String env) {
 		List<Student> studentList = new ArrayList<>();
 
 		if (name == null) {
@@ -59,7 +59,7 @@ public class Student {
 		String sql = "SELECT * FROM students WHERE LOWER(fullName) LIKE ?";
 
 		try {
-			Connection conn = Database.getConnection();
+			Connection conn = Database.getConnection(env);
 
 			if (conn == null) {
 				return null;
@@ -84,11 +84,16 @@ public class Student {
 		}
 	}
 
-	public boolean updateStudentInfo(int studentId, String fullName, int age, boolean gender) {
+	public boolean updateStudentInfo(int studentId, String fullName, int age, boolean gender, String env) {
 		String sql = "UPDATE Student SET fullName = ?, age = ?, gender = ? WHERE id = ?";
 
 		try {
-			Connection conn = Database.getConnection();
+			Connection conn = Database.getConnection(env);
+
+			if (conn == null) {
+				return false;
+			}
+
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, fullName);
 			stmt.setInt(2, age);
@@ -103,11 +108,16 @@ public class Student {
 		}
 	}
 
-	public boolean deleteStudent(int studentId) {
+	public boolean deleteStudent(int studentId, String env) {
 		String sql = "DELETE FROM Student WHERE id = ?";
 
 		try {
-			Connection conn = Database.getConnection();
+			Connection conn = Database.getConnection(env);
+
+			if (conn == null) {
+				return false;
+			}
+
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, studentId);
 

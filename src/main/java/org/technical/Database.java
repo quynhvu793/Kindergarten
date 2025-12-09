@@ -5,11 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-    private static final String URL = "jdbc:sqlite:kindergarten.db";
+    public static Connection getConnection(String env) {
+        String connectionString = "jdbc:sqlite:";
 
-    public static Connection getConnection() {
+        if (env == "prod") {
+            connectionString += "kindergarten.db";
+        } else if (env == "test") {
+            connectionString += "test_kindergarten.db";
+        }
+
         try {
-            Connection conn = DriverManager.getConnection(URL);
+            Connection conn = DriverManager.getConnection(connectionString);
             System.out.println("Kết nối DB thành công!");
             return conn;
         } catch (SQLException e) {
