@@ -12,7 +12,7 @@ public class TestingHelper {
         if (env == "prod") {
             connectionString += ":Kindergarten.db";
         } else if (env == "test") {
-            connectionString += ":Test_Kindergarten.db";
+            connectionString += ":test_kindergarten.db";
         }
 
         try {
