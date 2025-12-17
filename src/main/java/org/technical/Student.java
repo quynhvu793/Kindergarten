@@ -15,17 +15,17 @@ public class Student {
 
     }
 
-    public boolean updateStudentInfo(int id, String newFullName, int newAge, boolean newGender, String env) {
+    public int updateStudentInfo(int id, String newFullName, int newAge, boolean newGender, String env) {
         if (id <= 0) {
-            return false;
+            return 0;
         }
 
         if (newFullName.isBlank()) {
-            return false;
+            return 0;
         }
 
         if (newAge < 3 || newAge > 5) {
-            return false;
+            return 0;
         }
 
         String queryStr = "select * from Student where id = ?";
@@ -38,7 +38,7 @@ public class Student {
             ResultSet result1 = statement1.executeQuery();
 
             if (!result1.next()) {
-                return false;
+                return 0;
             }
 
             PreparedStatement statement2 = conn.prepareStatement(updateStr);
@@ -48,9 +48,9 @@ public class Student {
             statement2.setInt(4, id);
             int result2 = statement2.executeUpdate();
 
-            return result2 == 1;
+            return result2;
         } catch (Exception e) {
-            return false;
+            return -1;
         }
     }
 }
