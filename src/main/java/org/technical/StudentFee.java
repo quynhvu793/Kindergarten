@@ -2,31 +2,14 @@ package org.technical;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class StudentFee {
 
     private int id;
-    private int studentId;
-    private int registeredClassId;
+    private int registeredStudentId;
     private int month;
-    private int year;
     private int amount;
     private boolean isPaid;
-
-    public int getRecordCount(String env) {
-        String sqlStr = "select count(*) as total from StudentFee";
-
-        try {
-            Connection conn = TestingHelper.getConnection(env);
-            PreparedStatement statement = conn.prepareStatement(sqlStr);
-
-            ResultSet resultCount = statement.executeQuery();
-            return resultCount.getInt("total");
-        } catch (Exception e) {
-            return -1;
-        }
-    }
 
     public int addStudentFee(int registeredStudentId, int month, int amount, boolean isPaid, String env) {
         if (registeredStudentId <= 0) {
@@ -54,6 +37,7 @@ public class StudentFee {
 
             return result;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return -1;
         }
     }

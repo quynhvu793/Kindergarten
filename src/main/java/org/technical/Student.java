@@ -50,6 +50,7 @@ public class Student {
 
             return result2;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return -1;
         }
     }

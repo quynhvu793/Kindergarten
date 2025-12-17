@@ -3,32 +3,16 @@ package org.technical;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class Attendance {
 
     private int id;
-    private int studentId;
-    private int registeredClassId;
+    private int registeredStudentId;
     private boolean isAbsent;
     private Date date;
 
     public Attendance() {
 
-    }
-
-    public int getAttendanceCount(String env) {
-        String sqlStr = "select count(*) as total from Attendance";
-
-        try {
-            Connection conn = TestingHelper.getConnection(env);
-            PreparedStatement statement = conn.prepareStatement(sqlStr);
-
-            ResultSet resultCount = statement.executeQuery();
-            return resultCount.getInt("total");
-        } catch (Exception e) {
-            return -1;
-        }
     }
 
     public int addAttendance(int registeredStudentId, boolean isAbsent, String date, String env) {
