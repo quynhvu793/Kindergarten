@@ -7,12 +7,12 @@ import java.sql.SQLException;
 public class TestingHelper {
 
     public static Connection getConnection(String env) {
-        String connectionString = "jdbc:sqlite";
+        String connectionString = "jdbc:sqlite:file:";
 
         if (env == "prod") {
-            connectionString += ":Kindergarten.db";
+            connectionString += "kindergarten.db?mode=memory&cache=shared";
         } else if (env == "test") {
-            connectionString += ":test_kindergarten.db";
+            connectionString += "test_kindergarten.db?mode=memory&cache=shared";
         }
 
         try {
