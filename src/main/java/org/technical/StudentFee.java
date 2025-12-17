@@ -26,9 +26,7 @@ public class StudentFee {
 
         String sqlStr = "insert into StudentFee (registeredStudentId, month, amount, isPaid) values (?, ?, ?, ?)";
 
-        try {
-            Connection conn = TestingHelper.getConnection(env);
-            PreparedStatement statement = conn.prepareStatement(sqlStr);
+        try (Connection conn = TestingHelper.getConnection(env); PreparedStatement statement = conn.prepareStatement(sqlStr);) {
             statement.setInt(1, registeredStudentId);
             statement.setInt(2, month);
             statement.setInt(3, amount);

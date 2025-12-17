@@ -29,10 +29,7 @@ public class Attendance {
 
         String sqlStr = "insert into Attendance (registeredStudentId, isAbsent, date) values (?, ?, ?)";
 
-        try {
-            Connection conn = TestingHelper.getConnection(env);
-            PreparedStatement statement = conn.prepareStatement(sqlStr);
-
+        try (Connection conn = TestingHelper.getConnection(env); PreparedStatement statement = conn.prepareStatement(sqlStr);) {
             statement.setInt(1, registeredStudentId);
             statement.setBoolean(2, isAbsent);
             statement.setDate(3, attendanceDate);

@@ -31,9 +31,8 @@ public class Student {
         String queryStr = "select * from Student where id = ?";
         String updateStr = "update Student set fullName = ?, age = ?, gender = ? where id = ?";
 
-        try {
-            Connection conn = TestingHelper.getConnection(env);
-            PreparedStatement statement1 = conn.prepareStatement(queryStr);
+        try (Connection conn = TestingHelper.getConnection(env); PreparedStatement statement1 = conn.prepareStatement(queryStr);) {
+
             statement1.setInt(1, id);
             ResultSet result1 = statement1.executeQuery();
 
