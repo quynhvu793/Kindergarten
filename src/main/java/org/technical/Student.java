@@ -3,129 +3,54 @@ package org.technical;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Student {
 
-	private int id;
-	private String fullName;
-	private int age;
-	private boolean gender;
+    private int id;
+    private String fullName;
+    private int age;
+    private boolean gender;
 
-	public Student(int id, String fullName, int age, boolean gender) {
-		this.id = id;
-		this.fullName = fullName;
-		this.age = age;
-		this.gender = gender;
-	}
+    public Student() {
 
-	public Student(String fullName, int age, boolean gender) {
-		this.fullName = fullName;
-		this.age = age;
-		this.gender = gender;
-	}
+    }
 
-	public int addStudent(String env) {
-		try {
-			Connection conn = Database.getConnection(env);
+    public boolean updateStudentInfo(int id, String newFullName, int newAge, boolean newGender, String env) {
+        if (id <= 0) {
+            return false;
+        }
 
-			if (conn == null) {
-				return -1;
-			}
+        if (newFullName.isBlank()) {
+            return false;
+        }
 
-			String sql = "INSERT INTO Student(fullName, age, gender) VALUES(?, ?, ?)";
-			PreparedStatement pstmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-			pstmt.setString(1, this.fullName);
-			pstmt.setInt(2, this.age);
-			pstmt.setBoolean(3, this.gender);
+        if (newAge < 3 || newAge > 5) {
+            return false;
+        }
 
-			pstmt.executeUpdate();
-			ResultSet recordSet = pstmt.getGeneratedKeys();
-			this.id = recordSet.next() ? recordSet.getInt(1) : 0;
-			return this.id;
-		} catch (Exception e) {
-			return -1;
-		}
-	}
+        String queryStr = "select * from Student where id = ?";
+        String updateStr = "update Student set fullName = ?, age = ?, gender = ? where id = ?";
 
-	public List<Student> searchForStudents(String name, String env) {
-		List<Student> studentList = new ArrayList<>();
+        try {
+            Connection conn = TestingHelper.getConnection(env);
+            PreparedStatement statement1 = conn.prepareStatement(queryStr);
+            statement1.setInt(1, id);
+            ResultSet result1 = statement1.executeQuery();
 
-		if (name == null) {
-			return studentList;
-		}
+            if (!result1.next()) {
+                return false;
+            }
 
-		String sql = "SELECT * FROM students WHERE LOWER(fullName) LIKE ?";
+            PreparedStatement statement2 = conn.prepareStatement(updateStr);
+            statement2.setString(1, newFullName);
+            statement2.setInt(2, newAge);
+            statement2.setBoolean(3, newGender);
+            statement2.setInt(4, id);
+            int result2 = statement2.executeUpdate();
 
-		try {
-			Connection conn = Database.getConnection(env);
-
-			if (conn == null) {
-				return null;
-			}
-
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setString(1, "%" + name.toLowerCase() + "%");
-
-			ResultSet returnedList = ps.executeQuery();
-			while (returnedList.next()) {
-				studentList.add(new Student(
-					returnedList.getInt("id"),
-					returnedList.getString("fullName"),
-					returnedList.getInt("age"),
-					returnedList.getBoolean("gender")
-				));
-			}
-
-			return studentList;
-		} catch (Exception e) {
-			return new ArrayList<Student>();
-		}
-	}
-
-	public boolean updateStudentInfo(int studentId, String fullName, int age, boolean gender, String env) {
-		String sql = "UPDATE Student SET fullName = ?, age = ?, gender = ? WHERE id = ?";
-
-		try {
-			Connection conn = Database.getConnection(env);
-
-			if (conn == null) {
-				return false;
-			}
-
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, fullName);
-			stmt.setInt(2, age);
-			stmt.setBoolean(3, gender);
-			stmt.setInt(4, studentId);
-
-			int returnedResult = stmt.executeUpdate();
-
-			return returnedResult > 0;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	public boolean deleteStudent(int studentId, String env) {
-		String sql = "DELETE FROM Student WHERE id = ?";
-
-		try {
-			Connection conn = Database.getConnection(env);
-
-			if (conn == null) {
-				return false;
-			}
-
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, studentId);
-
-			int returnedResult = stmt.executeUpdate();
-
-			return returnedResult > 0;
-		} catch (Exception e) {
-			return false;
-		}
-	}
+            return result2 == 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

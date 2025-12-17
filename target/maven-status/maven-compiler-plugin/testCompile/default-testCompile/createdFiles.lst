@@ -1,2 +1,3 @@
-org\technical\AddStudentTest.class
-org\technical\SearchStudentTest.class
+org\technical\UpdateStudentTest.class
+org\technical\AddStudentFeeTest.class
+org\technical\AddAttendanceTest.class

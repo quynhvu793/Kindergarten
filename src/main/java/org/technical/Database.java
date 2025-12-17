@@ -5,14 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-    public static Connection getConnection(String env) {
-        String connectionString = "jdbc:sqlite:";
-
-        if (env == "prod") {
-            connectionString += "kindergarten.db";
-        } else if (env == "test") {
-            connectionString += "test_kindergarten.db";
-        }
+    public static Connection getConnection() {
+        String connectionString = "jdbc:sqlite:Kindergarten.db";
 
         try {
             Connection conn = DriverManager.getConnection(connectionString);
