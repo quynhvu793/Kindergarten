@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
-    private static final String URL = "jdbc:sqlite:kindergarten.db";
+    private static final String URL = "jdbc:sqlite:Kindergarten.db";
 
     public static Connection getConnection() {
         try {
