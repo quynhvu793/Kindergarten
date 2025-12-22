@@ -34,7 +34,7 @@ public class StudentRegistrationService {
 
         try (Connection conn = Database.getConnection()) {
 
-            /* 1️⃣ Check duplicate */
+            /* 1 Check duplicate */
             try (PreparedStatement ps = conn.prepareStatement(checkDuplicateSql)) {
                 ps.setInt(1, studentId);
                 ps.setInt(2, classId);
@@ -44,7 +44,7 @@ public class StudentRegistrationService {
                 }
             }
 
-            /* 2️⃣ Check capacity */
+            /* 2 Check capacity */
             int currentCount;
             int maxCount;
 
@@ -64,14 +64,14 @@ public class StudentRegistrationService {
                 }
             }
 
-            /* 3️⃣ Insert StudentByClass */
+            /* 3 Insert StudentByClass */
             try (PreparedStatement ps = conn.prepareStatement(insertSql)) {
                 ps.setInt(1, studentId);
                 ps.setInt(2, classId);
                 ps.executeUpdate();
             }
 
-            /* 4️⃣ Update studentCount */
+            /* 4 Update studentCount */
             try (PreparedStatement ps = conn.prepareStatement(updateCountSql)) {
                 ps.setInt(1, classId);
                 ps.executeUpdate();
