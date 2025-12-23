@@ -5,8 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Database {
+
     public static Connection getConnection() {
-        String connectionString = "jdbc:sqlite:Kindergarten.db";
+        String connectionString = "jdbc:sqlite:kindergarten.db";
 
         try {
             Connection conn = DriverManager.getConnection(connectionString);
