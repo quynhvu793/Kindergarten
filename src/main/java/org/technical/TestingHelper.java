@@ -17,8 +17,8 @@ public class TestingHelper {
 
         try {
             Connection conn = DriverManager.getConnection(connectionString);
-            System.out.println("Connection string: " + connectionString);
             System.out.println("Connected to DB successfully");
+
             return conn;
         } catch (SQLException e) {
             System.out.println("Error connecting to DB: " + e.getMessage());

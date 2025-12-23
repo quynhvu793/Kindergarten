@@ -6,8 +6,7 @@ import java.sql.Statement;
 public class TestDatabaseUtils {
 
     public static void resetDatabase() {
-        try (Connection conn = Database.getConnection();
-             Statement stmt = conn.createStatement()) {
+        try (Connection conn = Database.getConnection(); Statement stmt = conn.createStatement()) {
 
             stmt.execute("DELETE FROM StudentByClass;");
             stmt.execute("DELETE FROM Classes;");
@@ -32,6 +31,7 @@ public class TestDatabaseUtils {
             """);
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException("Reset DB failed", e);
         }
     }
